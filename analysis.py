@@ -28,8 +28,10 @@ plt.show()
 
 # 2. Monthly Spending Trend
 df_monthly = pd.read_sql_query(queries[1], conn)
+df_monthly["month"] = pd.to_datetime(df_monthly["month"])
+df_monthly["month_name"] = df_monthly["month"].dt.strftime("%b")
 
-plt.plot(df_monthly["month"], df_monthly["total_spent"], marker = 'o')
+plt.plot(df_monthly["month_name"], df_monthly["total_spent"], marker = 'o')
 plt.title("Monthly Spending Trend")
 plt.show()
 
