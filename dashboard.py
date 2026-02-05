@@ -1,0 +1,89 @@
+import streamlit as st
+import sqlite3
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Page title
+st.title("📊 Expense Analytics Dashboard")
+
+# Connecting to the database
+conn = sqlite3.connect("expense_data.db")
+
+# Read sql file
+with open("sql_queries.sql", "r") as file:
+    sql_content = file.read()
+
+# Split queries by semicolon
+queries = sql_content.strip().split(';')
+
+
+# 1. Category-wise spending
+
+st.subheader("Category-wise Spending")
+
+df_category = pd.read_sql_query(queries[0], conn)
+
+fig1, ax1 = plt.subplots()
+ax1.bar(df_category["category"], df_category["total_spent"])
+ax1.set_xlabel("Category")
+ax1.set_ylabel("Amount")
+ax1.set_title("Total Spending by Category")
+
+st.pyplot(fig1)
+
+
+# 2. Monthly Spending trend
+
+st.subheader("Monthly Spending Trend")
+
+df_monthly = pd.read_sql_query(queries[1], conn)
+df_monthly["month"] = pd.to_datetime(df_monthly["month"])
+df_monthly["month_name"] = df_monthly["month"].dt.strftime("%b")
+
+fig2, ax2 = plt.subplots()
+ax2.plot(df_monthly["month_name"], df_monthly["total_spent"], marker = "o")
+ax2.set_xlabel("Month")
+ax2.set_ylabel("Amount")
+ax2.set_title("Monthly Spending trend")
+
+st.pyplot(fig2)
+
+
+# 3. City wise spending
+
+st.subheader("City-wise Spending Distribution")
+
+df_city = pd.read_sql_query(queries[2], conn)
+
+fig3, ax3 = plt.subplots()
+
+ax3.pie(
+    df_city["total_spent"],
+    labels = df_city["city"],
+    autopct = "%1.1f%%"
+)
+
+ax3.set_title("City-wise spending")
+
+st.pyplot(fig3)
+
+
+
+# Payment method Analysis
+
+st.subheader("Payment wise analysis")
+
+df_payment = pd.read_sql_query(queries[3], conn)
+
+fig4, ax4 = plt.subplots()
+
+ax4.bar(df_payment["payment_method"], df_payment["total_spent"])
+ax4.set_xlabel("Payment Method")
+ax4.set_ylabel("Amount")
+ax4.set_title("Payment Method Analysis")
+
+st.pyplot(fig4)
+
+
+# Close the connection
+conn.close()
