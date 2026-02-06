@@ -3,18 +3,50 @@ import sqlite3
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
+# st.set_page_config(page_title="Expense Analytics Dashboard", layout="wide")
+
 # Page title
 st.title("📊 Expense Analytics Dashboard")
 
+
+DB_PATH = "expense_data.db"
+CSV_PATH = "expenses.csv"
+SQL_FILE = "sql_queries.sql"
+
+
 # Connecting to the database
-conn = sqlite3.connect("expense_data.db")
+conn = sqlite3.connect(DB_PATH)
+cursor = conn.cursor()
+
+
+# Create table if not exists
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS expenses (
+    expense_date TEXT,
+    category TEXT,
+    amount REAL,
+    city TEXT,
+    payment_method TEXT
+)
+""")
+
+# Load CSV into DB only if table is empty
+row_count = cursor.execute("SELECT COUNT(*) FROM expenses").fetchone()[0]
+
+if row_count == 0:
+    df_csv = pd.read_csv(CSV_PATH)
+    df_csv.to_sql("expenses", conn, if_exists="append", index=False)
+    conn.commit()
+
+
 
 # Read sql file
 with open("sql_queries.sql", "r") as file:
     sql_content = file.read()
 
 # Split queries by semicolon
-queries = sql_content.strip().split(';')
+queries = [q.strip() for q in sql_content.split(";") if q.strip()]
 
 
 # 1. Category-wise spending
