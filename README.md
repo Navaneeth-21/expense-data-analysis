@@ -5,8 +5,6 @@ This project focuses on analyzing transactional expense data to extract meaningf
 It demonstrates a step-by-step evolution from basic CSV-based analysis to SQL-powered analytics
 using Python.
 
-The project is built in **levels**, showing progressive enhancement of data analytics skills.
-
 
 ## 🧱 Tech Stack
 - Python
@@ -17,6 +15,7 @@ The project is built in **levels**, showing progressive enhancement of data anal
 
 
 ## 📁 Project Structure
+ ```
    expense-data-analysis/
    │
    ├── expenses.csv # Source dataset
@@ -26,7 +25,7 @@ The project is built in **levels**, showing progressive enhancement of data anal
    ├── requirements.txt
    ├── README.md
    └── .gitignore
-
+```
 
 ## 🚀 Level 1: CSV-Based Data Analysis (Basic)
 
@@ -89,7 +88,7 @@ Python is used to execute queries and visualize results.
 
 
 ## 📊 Visualizations
-- Bar chart for category-wise spending and payment methods
+- Bar chart for category-wise spending and payment method analysis
 - Line chart for monthly spending trends
 - Pie chart for city-wise spending
 
@@ -120,7 +119,6 @@ The dashboard presents category-wise, monthly, city-wise and payment method spen
 - Interactive web dashboard
 - Charts generated from SQL query results
 - Clean and minimal UI
-- End-to-end data pipeline visualization
 
 ## ▶️ How to Run 
 
