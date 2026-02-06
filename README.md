@@ -19,6 +19,7 @@ using Python.
    expense-data-analysis/
    │
    ├── expenses.csv # Source dataset
+   ├── dashboard.py # streamlit dashboard UI
    ├── load_to_db.py # Loads CSV data into SQLite database
    ├── analysis.py # Executes SQL queries and generates charts
    ├── sql_queries.sql # SQL queries for analytics
